@@ -3,6 +3,7 @@ import requests
 from discord.ext import commands
 import json
 from colorama import Fore as color
+import os  # <-- IMPORTANT for Railway variables
 
 intents = discord.Intents.default()
 intents.members = True
@@ -10,8 +11,6 @@ intents.messages = True
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 bot.remove_command("help")
-
-from colorama import Fore as color
 
 print(color.LIGHTGREEN_EX + "Coded by muha - guns.lol/muha")
 print(color.YELLOW + r"""
@@ -23,25 +22,21 @@ print(color.YELLOW + r"""
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
 """)
 
+# -------------------------------
+# READ VARIABLES FROM RAILWAY
+# -------------------------------
+TOKEN = os.getenv("token")        # <-- Railway variable
+ID = int(os.getenv("your_id"))    # <-- Railway variable
 
-f = open("config.json", "r")
-x = f.read()
-y = json.loads(x)
-TOKEN = y["token"]
-q = y["your_id"]
-ID = int(q)
 print(color.RESET + "[~] Do !help to get all commands")
-
 
 @bot.event
 async def on_ready():
     print(color.GREEN + f"[~] Logged in as {bot.user}")
 
-
 @bot.event
 async def on_command_error(ctx, error):
     print(color.RED + f"[!] Command error: {error}")
-
 
 @bot.command()
 async def help(ctx):
